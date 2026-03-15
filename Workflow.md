@@ -250,3 +250,17 @@ The entire automation pipeline follows this sequence:
 - Event teams receive participant records via Slack
 
 This system removes manual work and ensures consistent participant communication and organized event management.
+
+# Tools and Platforms
+
+- **Google Forms** — Data collection
+
+- **Google Sheets** — Participant database
+
+- **Zapier** — Workflow orchestration
+
+- **Gmail** — Automated email communication
+
+- **Slack** — Internal notifications
+
+- **Miro** — Workflow architecture design
