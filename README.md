@@ -39,6 +39,7 @@ Full Name | Email Address | Phone Number | Company | Position or Role | Event th
 This form acts as the entry point for the entire automation workflow.
 
 ## Workflow Design and Planning
+Screenshot 2026-03-14 235641.png
 
 
 
