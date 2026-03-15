@@ -22,11 +22,23 @@ The update should include the list of participants registered for that specific 
 
 # Project Overview
 
-This project implements an automated event registration workflow designed to streamline the process of collecting participant information, managing attendee records, and communicating with registrants.
+Event registration and participant communication were previously handled manually, resulting in delayed confirmation emails, inconsistent reminder scheduling, and limited visibility for event teams managing attendee lists.
 
-The automation is built using Google Forms, Google Sheets, Zapier, Gmail, and Slack to ensure that once a participant registers for an event, the required actions—confirmation, reminders, and internal notifications—are executed automatically without manual intervention.
+To address these challenges, I designed and implemented an automated event registration pipeline using Google Forms, Google Sheets, Zapier, Gmail, and Slack.
 
-The primary objective is to create a reliable, scalable, and organized registration pipeline for events scheduled for 15th December 2025, while maintaining a smooth experience for both participants and the event management team.
+The system automatically:
+
+- Collects and formats participant data
+
+- Sends personalized confirmation and reminder emails
+
+- Enforces marketing policy filters to exclude unapproved channels
+
+- Provides real-time attendee updates to internal event teams
+
+Once a participant submits the registration form, the automation processes the data, schedules the appropriate communications, and distributes participant information to the relevant event team without manual intervention.
+
+The objective of this system is to create a reliable, scalable, and organized event registration workflow for events scheduled for mm-dd-yyyy, while ensuring a smooth experience for both participants and event organizers.
 
 ## Data Collection
 
@@ -85,14 +97,15 @@ Similarly, the `How did you hear about us?` field is used to enforce the organiz
 Once the form structure was finalized, Google Forms automatically generated a linked response sheet in Google Sheets, which serves as the primary data source for the automation.
 
 ## Data Processing and Formatting
+The automation is triggered when a new Google Forms response is recorded in Google Sheets. Zapier then performs a sequence of processing steps using Formatter by Zapier, including data formatting, conditional filtering, event-based routing using Paths, and scheduled actions using Delay Until.
 
-After form submission, the raw data collected from the form is processed using Zapier Formatter tools to standardize and prepare the data for communication and storage.
+After form submission, the raw data captured by Google Forms is passed to Zapier, where Formatter actions are used to clean, standardize, and structure the data before it is used in automated communication and notification steps.
 
 The following transformations are applied:
 
 **Name Formatting**
+
 - Convert the participant's full name into Title Case to maintain a consistent format.
-- Extract the first name from the full name for use in personalized email greetings.
 
 Example:
 
@@ -141,3 +154,99 @@ then the system does not send confirmation emails or reminder messages to that p
 This condition ensures that the organization only engages with participants acquired through approved marketing channels.
 
 Zapier filters automatically enforce this rule before any communication is sent.
+
+<img src="image/filter.png" width="600">
+
+## Event-Based Conditional Routing
+
+After filtering, the workflow splits into four conditional paths depending on the event selected by the participant.
+
+These paths allow the system to send event-specific welcome emails and notifications.
+
+Event Paths: <br>
+
+<img src="image/path.png" width="1000">
+
+- Leadership Empowerment
+
+- Financial Literacy
+
+- Career Blueprint
+
+- Fallback (used for other events)
+
+## Personalized Confirmation Emails Samples
+
+- **The Major Groups**
+
+<img src="image/L.jpeg" width="250">      <img src="image/F.jpeg" width="250">
+
+- **The Fallback Group**<br>
+Participants who register for events outside the three main categories receive a general welcome email.
+<img src="image/P.jpeg" width="300">
+
+## Reminder Scheduling and Time Control in Zapier
+
+To ensure participants receive reminders at a specified time before the event, the automation workflow uses Zapier’s 'Delay Until' action to schedule reminder emails and internal notifications.
+
+This step allows the workflow to pause execution until a specified date and time before continuing to the next actions.
+
+**Delay Configuration**
+
+The reminder schedule was configured using the Delay Until feature in Zapier. This step pauses the automation until the defined timestamp:
+<img src="image/Delay.png" width="300">
+
+```
+2026-03-14T22:22:00
+```
+
+**Slack Team Notification Timing**
+
+Immediately after the reminder email is sent, the automation proceeds to notify the internal event management team via Slack.
+
+##  Automated Reminder System
+
+To ensure strong event attendance, reminder emails are scheduled automatically.
+
+Participants receive a reminder message  at the set time ```2026-03-14T22:22:00``` as highlighted in the reminder mail screenshot below. <br>
+
+<img src="image/R_L.jpeg" width="300">  <img src="image/R_p.jpeg" width="300">  <img src="image/R_build.jpeg" width="300">
+
+## Internal Team Notification
+Once participant emails and reminders are scheduled, the final automation step sends participant information to the appropriate internal team via Slack. <br>
+<img src="image/S_L.png" width="600">  
+<img src="image/S_F.png" width="600">  <img src="image/S_C.png" width="600">
+
+Each event team receives a filtered spreadsheet containing the participants registered for their event.
+
+This enables teams to:
+
+- Monitor registration numbers
+- Prepare event materials
+- Coordinate participant engagement
+- Manage event logistics effectively
+
+
+# Automation Architecture Summary
+
+![Diagram](image/zapier.png) 
+
+The entire automation pipeline follows this sequence:
+
+- Participant submits Google Form
+
+- Data is formatted and cleaned using Zapier Formatter
+
+- Data is stored in Google Sheets
+
+- Zapier filter checks company policy conditions
+
+- Workflow splits into event-specific paths
+
+- Personalized confirmation emails are sent
+
+- Reminder emails are scheduled
+
+- Event teams receive participant records via Slack
+
+This system removes manual work and ensures consistent participant communication and organized event management.
