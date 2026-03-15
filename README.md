@@ -34,7 +34,9 @@ A Google Form was used to collect participant registration information.
 
 The form captures the following fields:
 
+```
 Full Name | Email Address | Phone Number | Company | Position or Role | Event they wish to attend | Preferred Session | Number of Tickets Required | How they heard about us
+````
 
 This form acts as the entry point for the entire automation workflow.
 
@@ -82,6 +84,60 @@ Similarly, the `How did you hear about us?` field is used to enforce the organiz
 
 Once the form structure was finalized, Google Forms automatically generated a linked response sheet in Google Sheets, which serves as the primary data source for the automation.
 
+## Data Processing and Formatting
 
+After form submission, the raw data collected from the form is processed using Zapier Formatter tools to standardize and prepare the data for communication and storage.
 
+The following transformations are applied:
 
+**Name Formatting**
+- Convert the participant's full name into Title Case to maintain a consistent format.
+- Extract the first name from the full name for use in personalized email greetings.
+
+Example:
+
+```
+Input:
+john doe
+```
+
+```
+Processed Output:
+John Doe
+```
+```
+First Name extracted:
+John
+```
+
+**Phone Number Standardization**
+
+The phone number is formatted into a consistent standard format to improve readability and ensure compatibility with potential communication systems.
+
+Example format:
+```
+Input:
+08081234567
+```
+
+```
+Output:
+2348081234567
+```
+These processing steps ensure that participant data is clean, structured, and suitable for automated communication, enabling the rest of the workflow to operate reliably.
+
+## Policy-Based Filtering
+
+A key business rule was implemented during the automation process.
+
+Company Policy
+```
+If a participant selects “Other” in the field:
+
+“How did you hear about us?”
+```
+then the system does not send confirmation emails or reminder messages to that participant.
+
+This condition ensures that the organization only engages with participants acquired through approved marketing channels.
+
+Zapier filters automatically enforce this rule before any communication is sent.
